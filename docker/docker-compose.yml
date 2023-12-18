@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  nuus-api:
+    container_name: nuus-api
+    build:
+      context: nuus-api/.
+      args:
+        PORT: ${PORT}
+    ports:
+      - "${PORT}:${PORT}"
+    env_file:
+      - nuus-api/.env
