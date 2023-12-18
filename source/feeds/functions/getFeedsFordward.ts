@@ -7,7 +7,7 @@ interface result {
 
 const getFeedsForward = (options: FeedOptions) : result => {
   /**  Construct the where clause */
-  const where = options.id ? ` T1.id = ${options.id} ` : ` (T1.id NOT IN (SELECT T3.feedId_fk from feedReaded as T3 where T3.user = ?)) `;
+  const filter = options.id ? ` WHERE T1.id = ${options.id} ` : ` LEFT JOIN feedReaded as T3 on T3.feedId_fk = T1.id and T3.user = ? WHERE T3.id is null `;
   /** Add the filter */
   const sources = (options?.filter?.length ?? 0) === 0 ? 'source' : ` (SELECT * FROM source WHERE typeId_fk NOT IN (${options.filter.join(',')})) `;
   /** Construct the query  */
@@ -18,7 +18,7 @@ const getFeedsForward = (options: FeedOptions) : result => {
         T2.feed_TitleText sourceTitle, T2.feed_DescriptionText sourceDescription
     FROM feedItem as T1 
     INNER JOIN ${sources} as T2 ON T2.id = T1.sourceId_fk 
-      WHERE ${where}
+    ${filter}
     ORDER BY T1.publishDate DESC 
     LIMIT ${options.count ?? 10};
   `;
