@@ -1,11 +1,11 @@
-import { FeedFilter } from "../models/FeedFilter";
+import { FeedsFilter } from "../models/FeedsFilter";
 
 interface result {
   query: string;
   params: any[];
 }
 
-const getFeedsBack = (options: FeedFilter) : result => {
+const getFeedsBack = (feedsFilter: FeedsFilter) : result => {
   /** Construct the query  */
   const query = `
     SELECT T1.id, T1.publishDate, T1.titleText title, T1.summaryText summary, T1.contentText content, 
@@ -21,10 +21,10 @@ const getFeedsBack = (options: FeedFilter) : result => {
                               FROM feedReaded 
                               WHERE user = ? and feedId_fk = ?) and user = ?
                 ORDER BY feedReaded.id DESC
-                LIMIT ${options.count ?? 10}) as T3 ON T3.feedId_fk = T1.id;
+                LIMIT ${feedsFilter.count ?? 10}) as T3 ON T3.feedId_fk = T1.id;
   `;
   /** Set the parameters */
-  const params = [options.user, options.back, options.user];
+  const params = [feedsFilter.user, feedsFilter.back, feedsFilter.user];
   /** */
   return { query, params };
 };

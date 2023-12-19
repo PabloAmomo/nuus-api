@@ -1,15 +1,15 @@
-import { FeedFilter } from "../models/FeedFilter";
+import { FeedsFilter } from "../models/FeedsFilter";
 
 interface result {
   query: string;
   params: any[];
 }
 
-const getFeedsForward = (options: FeedFilter) : result => {
+const getFeedsForward = (feedsFilter: FeedsFilter) : result => {
   /**  Construct the where clause */
-  const filter = options.id ? ` WHERE T1.id = ${options.id} ` : ` LEFT JOIN feedReaded as T3 on T3.feedId_fk = T1.id and T3.user = ? WHERE T3.id is null `;
+  const filter = feedsFilter.id ? ` WHERE T1.id = ${feedsFilter.id} ` : ` LEFT JOIN feedReaded as T3 on T3.feedId_fk = T1.id and T3.user = ? WHERE T3.id is null `;
   /** Add the filter */
-  const sources = (options?.filter?.length ?? 0) === 0 ? 'source' : ` (SELECT * FROM source WHERE typeId_fk NOT IN (${options.filter.join(',')})) `;
+  const sources = (feedsFilter?.filter?.length ?? 0) === 0 ? 'source' : ` (SELECT * FROM source WHERE typeId_fk NOT IN (${feedsFilter.filter.join(',')})) `;
   /** Construct the query  */
   const query = `
       SELECT T1.id, T1.publishDate, T1.titleText title, T1.summaryText summary, T1.contentText content, 
@@ -20,10 +20,10 @@ const getFeedsForward = (options: FeedFilter) : result => {
     INNER JOIN ${sources} as T2 ON T2.id = T1.sourceId_fk 
     ${filter}
     ORDER BY T1.publishDate DESC 
-    LIMIT ${options.count ?? 10};
+    LIMIT ${feedsFilter.count ?? 10};
   `;
   /** Set the parameters */
-  const params = [options.user];
+  const params = [feedsFilter.user];
   /** */
   return { query, params };
 };
