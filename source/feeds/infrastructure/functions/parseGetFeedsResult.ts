@@ -1,6 +1,6 @@
-import { Feed } from "../models/Feed";
-import { FeedsResponse } from "../models/FeedsResponse";
-import { FeedResult } from "../models/FeedsResult";
+import { Feed } from "../../models/Feed";
+import { FeedsResponse } from "../../controller/models/FeedsResponse";
+import { FeedResult } from "../models/FeedResult";
 import getImages from "./getImages";
 
 const parseGetFeedsResult = (result: FeedResult[]) : FeedsResponse => {

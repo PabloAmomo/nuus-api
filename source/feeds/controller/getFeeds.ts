@@ -1,8 +1,8 @@
-import { FeedsResponse } from '../models/FeedsResponse';
+import { FeedsResponse } from './models/FeedsResponse';
 import { getFeeds as getFeedsFromDB } from '../infrastructure/getFeeds';
-import { getRequestData } from '../functions/getRequestData';
+import { getRequestData } from './functions/getRequestData';
 import { Request, Response, NextFunction } from 'express';
-import { RequestData } from '../models/RequestData';
+import { RequestData } from './models/RequestData';
 
 const getFeeds = async (req: Request, res: Response, next: NextFunction) => {
   const { count, user, filter, back }  : RequestData  = getRequestData(req);

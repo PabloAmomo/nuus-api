@@ -1,6 +1,6 @@
-import { getRequestData } from '../functions/getRequestData';
+import { getRequestData } from './functions/getRequestData';
 import { Request, Response } from 'express';
-import { RequestData } from '../models/RequestData';
+import { RequestData } from './models/RequestData';
 import { setReaded as setReadedInDB } from '../infrastructure/setReaded';
 
 const setReaded = async (req: Request, res: Response) => {

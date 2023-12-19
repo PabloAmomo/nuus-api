@@ -1,4 +1,4 @@
-export interface FeedOptions {
+export interface FeedFilter {
   id?: number;
   count: number;
   user: string;

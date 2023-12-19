@@ -1,11 +1,11 @@
-import { FeedOptions } from "../models/FeedOptions";
+import { FeedFilter } from "../models/FeedFilter";
 
 interface result {
   query: string;
   params: any[];
 }
 
-const getFeedsBack = (options: FeedOptions) : result => {
+const getFeedsBack = (options: FeedFilter) : result => {
   /** Construct the query  */
   const query = `
     SELECT T1.id, T1.publishDate, T1.titleText title, T1.summaryText summary, T1.contentText content, 

@@ -2,7 +2,7 @@ import { databaseConnection } from './databaseConnection';
 import mysql from 'mysql';
 
 /** Query the database */
-async function databaseQuery(ConnectionConfig: mysql.ConnectionConfig , sql: string, values: any[]): Promise<any> {
+async function mysqlQuery(ConnectionConfig: mysql.ConnectionConfig , sql: string, values: any[]): Promise<any> {
   const promise = new Promise((resolve, reject) => {
     const connection = databaseConnection(ConnectionConfig);
     connection.on('error', (error) => reject(error));
@@ -16,4 +16,4 @@ async function databaseQuery(ConnectionConfig: mysql.ConnectionConfig , sql: str
   return promise;
 }
 
-export default databaseQuery;
+export default mysqlQuery;

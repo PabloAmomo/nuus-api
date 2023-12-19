@@ -1,4 +1,4 @@
-import { FeedImage } from "../models/FeedImage";
+import { FeedImage } from "../../models/FeedImage";
 
 const getImages = (images: string) : FeedImage[] => {
   const result: FeedImage[] = [];

@@ -1,11 +1,11 @@
-import { FeedOptions } from "../models/FeedOptions";
+import { FeedFilter } from "../models/FeedFilter";
 
 interface result {
   query: string;
   params: any[];
 }
 
-const getFeedsForward = (options: FeedOptions) : result => {
+const getFeedsForward = (options: FeedFilter) : result => {
   /**  Construct the where clause */
   const filter = options.id ? ` WHERE T1.id = ${options.id} ` : ` LEFT JOIN feedReaded as T3 on T3.feedId_fk = T1.id and T3.user = ? WHERE T3.id is null `;
   /** Add the filter */

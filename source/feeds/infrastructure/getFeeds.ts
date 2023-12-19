@@ -1,12 +1,12 @@
-import { FeedOptions } from '../models/FeedOptions';
-import { FeedResult } from '../models/FeedsResult';
-import { getFeedsBack } from '../functions/getFeedsBack';
-import { getFeedsForward } from '../functions/getFeedsFordward';
-import { parseGetFeedsResult } from '../functions/parseGetFeedsResult';
+import { FeedFilter } from './models/FeedFilter';
+import { FeedResult } from './models/FeedResult';
+import { getFeedsBack } from './functions/getFeedsBack';
+import { getFeedsForward } from './functions/getFeedsFordward';
+import { parseGetFeedsResult } from './functions/parseGetFeedsResult';
 import config from '../config/config';
-import databaseQuery from '../../commons/infraestructure/database/databaseQuery';
+import databaseQuery from '../../shared/infraestructure/persistence/databaseQuery';
 
-const getFeeds = (onResult: CallableFunction, onError: CallableFunction, options: FeedOptions) => {
+const getFeeds = (onResult: CallableFunction, onError: CallableFunction, options: FeedFilter) => {
   /** Get the query and params */
   const { query, params } = options.back ? getFeedsBack(options) : getFeedsForward(options);
 
