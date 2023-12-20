@@ -4,7 +4,7 @@ import { getRequestData } from './functions/getRequestData';
 import { Request, Response, NextFunction } from 'express';
 import { RequestData } from './models/RequestData';
 
-const getFeeds = async (req: Request, res: Response, next: NextFunction) => {
+const getFeeds = async (req: Request, res: Response) => {
   const { count, user, filter, back }: RequestData = getRequestData(req);
 
   if (count > 50) {

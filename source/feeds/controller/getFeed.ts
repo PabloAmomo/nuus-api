@@ -4,7 +4,7 @@ import { getRequestData } from './functions/getRequestData';
 import { Request, Response, NextFunction } from 'express';
 import { RequestData } from './models/RequestData';
 
-const getFeed = async (req: Request, res: Response, next: NextFunction) => {
+const getFeed = async (req: Request, res: Response) => {
   const { id, user }: RequestData = getRequestData(req);
 
   if (Number.isNaN(id)) {
