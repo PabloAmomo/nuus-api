@@ -16,6 +16,8 @@ const setReaded = async (req: Request, res: Response) => {
     return;
   }
 
+  if (id && feedsId.length === 0) feedsId.push('' + id);
+
   await setReadedInDB(
     () => res.status(200).json({ result: 'success' }),
     (error: Error) => res.status(500).json({ error: error.message ?? '' }),

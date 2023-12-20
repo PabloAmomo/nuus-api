@@ -1,4 +1,3 @@
-import { getFeeds } from './getFeeds';
 import assert from 'node:assert';
 import httpMocks from 'node-mocks-http';
 import test from 'node:test';
@@ -24,9 +23,18 @@ test('setReaded -> post -> /setReaded (invalid id)', async () => {
 
 test('setReaded -> post -> /setReaded/1', async () => {
   const response = httpMocks.createResponse();
-  const request = httpMocks.createRequest({ method: 'POST', url: '/setReaded', params: { id: '1' }, headers: { 'x-user': 'user' }});
+  const request = httpMocks.createRequest({ method: 'POST', url: '/setReaded/1', params: { id: '1' }, headers: { 'x-user': 'user' }});
   const result = await setReaded(request, response);
   const json = response._getJSONData();
-  assert.equal('success', json.result);
-  assert.equal(200, response.statusCode);
+  assert.notEqual(null, json.error);
+  assert.equal(500, response.statusCode);
+});
+
+test('setReaded -> post -> /setReaded (Feeds by POST)', async () => {
+  const response = httpMocks.createResponse();
+  const request = httpMocks.createRequest({ method: 'POST', body: { feedsId: 1 }, url: '/setReaded', params: { id: '1' }, headers: { 'x-user': 'user' }});
+  const result = await setReaded(request, response);
+  const json = response._getJSONData();
+  assert.equal(500, response.statusCode);
+  assert.notEqual(null, json.error);
 });

@@ -19,7 +19,7 @@ const getFeeds = async (req: Request, res: Response) => {
 
   await getFeedsFromDB(
     (result: FeedsResponse) => res.status(200).json({ ...(result ?? {}) }),
-    (error: Error) => res.status(500).json({ error: error.message ?? '' }),
+    (error: Error) => res.status(500).json({  error: error.message ?? '' }),
     { count, user, filter, back }
   );
 };
