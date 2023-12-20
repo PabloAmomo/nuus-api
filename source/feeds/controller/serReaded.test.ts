@@ -38,3 +38,12 @@ test('setReaded -> post -> /setReaded (Feeds by POST)', async () => {
   assert.equal(500, response.statusCode);
   assert.notEqual(null, json.error);
 });
+
+test('setReaded -> post -> /setReaded (Feeds by POST)', async () => {
+  const response = httpMocks.createResponse();
+  const request = httpMocks.createRequest({ method: 'POST', body: { feedsId: "1,2" }, url: '/setReaded', params: { id: '1' }, headers: { 'x-user': 'user' }});
+  const result = await setReaded(request, response);
+  const json = response._getJSONData();
+  assert.equal(500, response.statusCode);
+  assert.notEqual(null, json.error);
+});
