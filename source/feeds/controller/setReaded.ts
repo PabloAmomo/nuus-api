@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import { RequestData } from './models/RequestData';
 import { setReaded as setReadedInDB } from '../infrastructure/setReaded';
 
-const setReaded = async (req: Request, res: Response) => {
+const setReaded = (req: Request, res: Response) => {
   const { id, user, feedsId }: RequestData = getRequestData(req);
 
   if (Number.isNaN(id) && feedsId.length === 0) {
@@ -18,7 +18,7 @@ const setReaded = async (req: Request, res: Response) => {
 
   if (id && feedsId.length === 0) feedsId.push('' + id);
 
-  await setReadedInDB(
+  setReadedInDB(
     () => res.status(200).json({ result: 'success' }),
     (error: Error) => res.status(500).json({ error: error.message ?? '' }),
     { id, user, feedsId }

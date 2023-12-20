@@ -2,8 +2,8 @@ import mysqlQuery from './mysql/mysqlQuery';
 import { DatabaseConnectionConfig } from '../models/DatabaseConnectionConfig';
 
 /** Query the database */
-async function databaseQuery(ConnectionConfig: DatabaseConnectionConfig , query: string, values: any[]): Promise<any> {
-  return mysqlQuery(ConnectionConfig, query, values);
+function databaseQuery(ConnectionConfig: DatabaseConnectionConfig , query: string, values: any[], onResult: CallableFunction, onError: CallableFunction) {
+  return mysqlQuery(ConnectionConfig, query, values, onResult, onError);
 }
 
 export default databaseQuery;

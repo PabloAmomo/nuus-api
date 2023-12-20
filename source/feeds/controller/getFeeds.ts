@@ -1,10 +1,10 @@
 import { FeedsResponse } from './models/FeedsResponse';
 import { getFeeds as getFeedsFromDB } from '../infrastructure/getFeeds';
 import { getRequestData } from './functions/getRequestData';
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response } from 'express';
 import { RequestData } from './models/RequestData';
 
-const getFeeds = async (req: Request, res: Response) => {
+const getFeeds = (req: Request, res: Response) => {
   const { count, user, filter, back }: RequestData = getRequestData(req);
 
   if (count > 50) {
@@ -17,9 +17,9 @@ const getFeeds = async (req: Request, res: Response) => {
     return;
   }
 
-  await getFeedsFromDB(
+  getFeedsFromDB(
     (result: FeedsResponse) => res.status(200).json({ ...(result ?? {}) }),
-    (error: Error) => res.status(500).json({  error: error.message ?? '' }),
+    (error: Error) => res.status(500).json({ error: error.message ?? '' }),
     { count, user, filter, back }
   );
 };
