@@ -4,8 +4,8 @@ import { getRequestData } from './functions/getRequestData';
 import { Request, Response, NextFunction } from 'express';
 import { RequestData } from './models/RequestData';
 
-const getFeed = (req: Request, res: Response, next: NextFunction) => {
-  const { id, user } : RequestData = getRequestData(req);
+const getFeed = async (req: Request, res: Response, next: NextFunction) => {
+  const { id, user }: RequestData = getRequestData(req);
 
   if (Number.isNaN(id)) {
     res.status(500).json({ error: 'invalid id' });
@@ -17,13 +17,9 @@ const getFeed = (req: Request, res: Response, next: NextFunction) => {
     return;
   }
 
-  getFeedFromDB(
-    (result: Feed) => {
-      res.status(200).json({ ...result ?? {} });
-    },
-    (error: Error) => {
-      res.status(500).json({ error: error.message ?? '' });
-    },  
+  await getFeedFromDB(
+    (result: Feed) => res.status(200).json({ ...(result ?? {}) }),
+    (error: Error) => res.status(500).json({ error: error.message ?? '' }),
     { id, user }
   );
 };

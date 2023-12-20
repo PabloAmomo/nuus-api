@@ -13,9 +13,9 @@ test('getFeed -> get -> /feeds/1 (without x-user in header) (error 500)', async 
 test('getFeed -> get -> /feeds/1', async () => {
   const response = httpMocks.createResponse();
   const request = httpMocks.createRequest({ method: 'GET', url: '/feeds/1', params: { id: '1' }, headers: { 'x-user': 'user' } });
-  const result = getFeed(request, response, () => {});
-  // TODO: Fix this test (Wait for database execute ok or error)
-  // Problem: getFeedFromDB execute async callbacks with the result, and report in response
-  // Solution: Implemnent promise in getFeedFromDB
+  const result = await getFeed(request, response, () => {});
+  const json = response._getJSONData();
+  assert.equal(200, response.statusCode);
+  assert.equal('success', json.status);
 });
 

@@ -10,13 +10,13 @@ const processError = (readedOption: ReadedOption, error: Error, onError: Callabl
   console.log(`Error seting readed feed ${readedOption.id} for user ${readedOption.user} (${error.message})`);
 };
 
-const setReaded = (onResult: CallableFunction, onError: CallableFunction, readedOption: ReadedOption) => {
+const setReaded = async (onResult: CallableFunction, onError: CallableFunction, readedOption: ReadedOption) => {
   /**  Set the feeds as readed */
   for (let i = 0; i < readedOption.feedsId.length; i++) {
     const id: number = parseInt(readedOption.feedsId[i]);
     if (Number.isNaN(id)) continue;
     /** Check if the feed is already readed */
-    databaseQuery(config.database, queryIsReaded, [id, readedOption.user])
+    await databaseQuery(config.database, queryIsReaded, [id, readedOption.user])
       .then((result) => {
         if (result.length !== 0) {
           processError({ ...readedOption, id }, new Error('Feed already readed'), onError);

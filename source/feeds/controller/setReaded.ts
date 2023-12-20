@@ -3,8 +3,8 @@ import { Request, Response } from 'express';
 import { RequestData } from './models/RequestData';
 import { setReaded as setReadedInDB } from '../infrastructure/setReaded';
 
-const setReaded = (req: Request, res: Response) => {
-  const { id, user, feedsId } : RequestData = getRequestData(req);
+const setReaded = async (req: Request, res: Response) => {
+  const { id, user, feedsId }: RequestData = getRequestData(req);
 
   if (Number.isNaN(id) && feedsId.length === 0) {
     res.status(500).json({ error: 'invalid id' });
@@ -16,13 +16,9 @@ const setReaded = (req: Request, res: Response) => {
     return;
   }
 
-  setReadedInDB(
-    () => {
-      res.status(200).json({ result: 'success' });
-    },
-    (error: Error) => {
-      res.status(500).json({ error: error.message ?? '' });
-    },  
+  await setReadedInDB(
+    () => res.status(200).json({ result: 'success' }),
+    (error: Error) => res.status(500).json({ error: error.message ?? '' }),
     { id, user, feedsId }
   );
 };
