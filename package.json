@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon --exec ts-node --esm ./source/server.ts",
     "dev-nowatch": "ts-node --esm ./source/server.ts",
-    "build": "del-cli --force ./build && tsc && node --test",
+    "build": "del-cli --force ./build && tsc && node --test && del-cli --force ./build/**/*.test.*",
     "pro": "del-cli --force ./build && tsc && node ./build/server.js",
     "test": "del-cli --force ./build && tsc && node --test"
   },
