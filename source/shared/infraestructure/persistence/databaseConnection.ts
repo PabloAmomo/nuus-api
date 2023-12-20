@@ -1,5 +1,5 @@
 import mysql from 'mysql';
-import { mysqlConnection } from './mysqlConnection';
+import { mysqlConnection } from './mysql/mysqlConnection';
 import { DatabaseConnectionConfig } from '../models/DatabaseConnectionConfig';
 import { DatabaseConnection } from '../models/DatabaseConnection';
 

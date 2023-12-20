@@ -1,4 +1,4 @@
-import { databaseConnection } from './databaseConnection';
+import { databaseConnection } from '../databaseConnection';
 import mysql from 'mysql';
 
 /** Query the database */

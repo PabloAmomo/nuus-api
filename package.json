@@ -6,8 +6,9 @@
   "scripts": {
     "dev": "nodemon --exec ts-node --esm ./source/server.ts",
     "dev-nowatch": "ts-node --esm ./source/server.ts",
-    "build": "del-cli --force ./build && tsc",
-    "pro": "del-cli --force ./build && tsc && node ./build/server.js"
+    "build": "del-cli --force ./build && tsc && node --test",
+    "pro": "del-cli --force ./build && tsc && node ./build/server.js",
+    "test": "del-cli --force ./build && tsc && node --test"
   },
   "keywords": [],
   "author": "",
@@ -23,7 +24,7 @@
     "@types/express": "4.17.21",
     "@types/mysql": "2.15.24",
     "del-cli": "5.1.0",
-    "jest": "29.7.0",
+    "node-mocks-http": "^1.14.0",
     "nodemon": "3.0.2",
     "ts-node": "10.9.2",
     "typescript": "5.3.3"

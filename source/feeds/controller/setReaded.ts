@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import { RequestData } from './models/RequestData';
 import { setReaded as setReadedInDB } from '../infrastructure/setReaded';
 
-const setReaded = async (req: Request, res: Response) => {
+const setReaded = (req: Request, res: Response) => {
   const { id, user, feedsId } : RequestData = getRequestData(req);
 
   if (Number.isNaN(id) && feedsId.length === 0) {

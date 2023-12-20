@@ -1,4 +1,4 @@
-import mysqlQuery from './mysqlQuery';
+import mysqlQuery from './mysql/mysqlQuery';
 import { DatabaseConnectionConfig } from '../models/DatabaseConnectionConfig';
 
 /** Query the database */
