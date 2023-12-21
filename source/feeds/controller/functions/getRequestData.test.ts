@@ -21,7 +21,6 @@ test('getRequestData : get -> /feeds/1?count=20&filter=1,2,3', async () => {
   assert.deepEqual(result,  { count: 20, user: 'user', filter: [ '1', '2', '3' ], back: 0, id: 1, feedsId: [] });
 });
 
-
 test('getRequestData : get -> /feeds/?count=20&filter=1,2,3 (Without id)', async () => {
   const request = httpMocks.createRequest({ method: 'GET', url: '/feeds/?count=20&filter=1,2,3', headers: { 'x-user': 'user' }});
   const result = getRequestData(request);
