@@ -29,7 +29,7 @@ const getFeedsForward = (feedsFilter: FeedsFilter): result => {
         ${filter} 
         ${filterSources}
         ORDER BY TORDER.publishDate DESC
-        LIMIT ${feedsFilter.count ?? 10}) AS TFEEDS
+        LIMIT ${feedsFilter.count}) AS TFEEDS
     INNER JOIN source as TSOURCES ON TSOURCES.id = TFEEDS.sourceId
     ORDER BY publishDate DESC;
   `;
