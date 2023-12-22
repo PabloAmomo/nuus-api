@@ -1,5 +1,5 @@
 import { FeedsFilter } from "../models/FeedsFilter";
-import { scapeValue } from "./scapeValue";
+import { scapeValue } from "../../controller/functions/scapeValue";
 
 interface result {
   query: string;
@@ -7,11 +7,13 @@ interface result {
 }
 
 const getFeedsBack = (feedsFilter: FeedsFilter) : result => {
-  // TODO: scape the back and count value
-  /** Get the user */
-  const user = scapeValue(feedsFilter.user);
   /** Get the last id readed */
   const back = feedsFilter.back ?? 0;
+  /** Add the source filter */
+  const filterSources =
+  (feedsFilter?.filter?.length ?? 0) === 0
+    ? 'source'
+    : ` (SELECT * FROM source WHERE typeId_fk NOT IN (${feedsFilter.filter.join(',')})) `;
   /** Construct the query  */
   const query = `
     SELECT T1.id, T1.publishDate, T1.titleText title, T1.summaryText summary, T1.contentText content, 
@@ -19,13 +21,13 @@ const getFeedsBack = (feedsFilter: FeedsFilter) : result => {
       T2.typeId_fk sourceType, IFNULL(T2.feed_ImageUrl_Fixed, T2.feed_ImageUrl) sourceIcon, T2.name sourceName, 
       T2.feed_TitleText sourceTitle, T2.feed_DescriptionText sourceDescription
     FROM feedItem as T1 
-    INNER JOIN source as T2 ON T2.id = T1.sourceId_fk 
+    INNER JOIN ${filterSources} as T2 ON T2.id = T1.sourceId_fk 
     -- join with the latest x readed feeds
     INNER JOIN (SELECT feedId_fk 
                 FROM feedReaded 
                   WHERE id < (SELECT id 
                               FROM feedReaded 
-                              WHERE user = '${user}' and feedId_fk = ${back}) and user = '${user}'
+                              WHERE user = '${feedsFilter.user}' and feedId_fk = ${back}) and user = '${feedsFilter.user}'
                 ORDER BY feedReaded.id DESC
                 LIMIT ${feedsFilter.count ?? 10}) as T3 ON T3.feedId_fk = T1.id
     ORDER BY T1.publishDate DESC;
@@ -33,6 +35,7 @@ const getFeedsBack = (feedsFilter: FeedsFilter) : result => {
   /** Set the parameters */
   const params: string[] = [];
   /** */
+  // console.log(query);
   return { query, params };
 };
 
