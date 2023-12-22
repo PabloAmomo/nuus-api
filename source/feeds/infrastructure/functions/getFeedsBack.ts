@@ -1,5 +1,4 @@
 import { FeedsFilter } from "../models/FeedsFilter";
-import { scapeValue } from "../../controller/functions/scapeValue";
 
 interface result {
   query: string;
@@ -25,9 +24,10 @@ const getFeedsBack = (feedsFilter: FeedsFilter) : result => {
     -- join with the latest x readed feeds
     INNER JOIN (SELECT feedId_fk 
                 FROM feedReaded 
-                  WHERE id < (SELECT id 
+                  WHERE id < IFNULL((SELECT id 
                               FROM feedReaded 
-                              WHERE user = '${feedsFilter.user}' and feedId_fk = ${back}) and user = '${feedsFilter.user}'
+                              WHERE user = '${feedsFilter.user}' and feedId_fk = ${back}), 999999999999)
+                        and user = '${feedsFilter.user}'
                 ORDER BY feedReaded.id DESC
                 LIMIT ${feedsFilter.count ?? 10}) as T3 ON T3.feedId_fk = T1.id
     ORDER BY T1.publishDate DESC;
