@@ -11,18 +11,6 @@ const getFeedsForward = (feedsFilter: FeedsFilter): result => {
     ? ` WHERE TORDER.id = ${feedsFilter.id} `
     : ` LEFT JOIN feedReaded as TREADED on TREADED.feedId_fk = TORDER.id and TREADED.user = '${feedsFilter.user}' 
         WHERE TREADED.id is null `;
-  /** */
-  // const filter = feedsFilter.id
-  //   ? ` WHERE TORDER.id = ${feedsFilter.id} `
-  //   : ` 
-  //         WHERE TORDER.id > IFNULL((SELECT feedLast.feedId_fk FROM feedLast WHERE \`user\` = '${feedsFilter.user}'), 0)
-  //         OR 
-  //         (
-  //           TORDER.id < (SELECT feedLast.feedId_fk FROM feedLast WHERE \`user\` = '${feedsFilter.user}') 
-  //           AND 
-  //           TORDER.publishDate >= (SELECT feedLast.publishDate FROM feedLast WHERE \`user\` = '${feedsFilter.user}')
-  //         )
-  //       ` 
   /** Add the filter */
   const filterSources =
     (feedsFilter?.filter?.length ?? 0) === 0
