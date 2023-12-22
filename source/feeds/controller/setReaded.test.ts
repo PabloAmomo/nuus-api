@@ -22,17 +22,17 @@ test('setReaded -> post -> /setReaded (invalid id)', () => {
   assert.equal(500, res.statusCode);
 });
 
-// test('setReaded -> post -> /setReaded/1', () => {
-//   const myEmitter = EventEmitter.EventEmitter;
-//   const res = httpMocks.createResponse({ eventEmitter: myEmitter });
-//   res.on('check', () => {
-//     const json = res._getJSONData();
-//     assert.notEqual(null, json.error);
-//     assert.equal(500, res.statusCode);
-//     });
-//   const req = httpMocks.createRequest({ method: 'POST', url: '/setReaded/1', params: { id: '1' }, headers: { 'x-user': 'user' }});
-//   setReaded({ req, res, onFinish: () => res.emit('check')});
-// });
+test('setReaded -> post -> /setReaded/1', () => {
+  const myEmitter = EventEmitter.EventEmitter;
+  const res = httpMocks.createResponse({ eventEmitter: myEmitter });
+  res.on('check', () => {
+    const json = res._getJSONData();
+    assert.notEqual(null, json.error);
+    assert.equal(500, res.statusCode);
+    });
+  const req = httpMocks.createRequest({ method: 'POST', url: '/setReaded/1', params: { id: '1' }, headers: { 'x-user': 'user' }});
+  setReaded({ req, res, onFinish: () => res.emit('check')});
+});
 
 // test('setReaded -> post -> /setReaded (Feeds by POST)', () => {
 //   const myEmitter = EventEmitter.EventEmitter;

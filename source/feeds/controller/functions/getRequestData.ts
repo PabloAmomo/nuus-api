@@ -1,10 +1,8 @@
+import { filterNumberStrings } from './filterNumberStrings';
+import { getIntegerOrDefault } from './getIntegerOrDefault';
 import { Request } from 'express';
 import { RequestData } from '../models/RequestData';
 import { scapeValue } from './scapeValue';
-import { getIntegerOrDefault } from './getIntegerOrDefault';
-import { filterNumberStrings } from './filterNumberStrings';
-
-
 
 const getRequestData = (req: Request): RequestData => {
   const body = req.body || {};
