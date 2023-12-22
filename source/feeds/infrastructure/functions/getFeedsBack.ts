@@ -1,4 +1,5 @@
 import { FeedsFilter } from "../models/FeedsFilter";
+import { scapeValue } from "./scapeValue";
 
 interface result {
   query: string;
@@ -6,6 +7,11 @@ interface result {
 }
 
 const getFeedsBack = (feedsFilter: FeedsFilter) : result => {
+  // TODO: scape the back and count value
+  /** Get the user */
+  const user = scapeValue(feedsFilter.user);
+  /** Get the last id readed */
+  const back = feedsFilter.back ?? 0;
   /** Construct the query  */
   const query = `
     SELECT T1.id, T1.publishDate, T1.titleText title, T1.summaryText summary, T1.contentText content, 
@@ -19,12 +25,13 @@ const getFeedsBack = (feedsFilter: FeedsFilter) : result => {
                 FROM feedReaded 
                   WHERE id < (SELECT id 
                               FROM feedReaded 
-                              WHERE user = ? and feedId_fk = ?) and user = ?
+                              WHERE user = '${user}' and feedId_fk = ${back}) and user = '${user}'
                 ORDER BY feedReaded.id DESC
-                LIMIT ${feedsFilter.count ?? 10}) as T3 ON T3.feedId_fk = T1.id;
+                LIMIT ${feedsFilter.count ?? 10}) as T3 ON T3.feedId_fk = T1.id
+    ORDER BY T1.publishDate DESC;
   `;
   /** Set the parameters */
-  const params = [feedsFilter.user, feedsFilter.back, feedsFilter.user];
+  const params: string[] = [];
   /** */
   return { query, params };
 };

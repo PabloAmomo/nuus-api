@@ -1,4 +1,5 @@
 import { FeedsFilter } from '../models/FeedsFilter';
+import { scapeValue } from './scapeValue';
 
 interface result {
   query: string;
@@ -6,10 +7,13 @@ interface result {
 }
 
 const getFeedsForward = (feedsFilter: FeedsFilter): result => {
+  // TODO: scape the filter and count value
+  /** Get the user */
+  const user = scapeValue(feedsFilter.user);
   /**  Construct the where clause */
   const filter = feedsFilter.id
     ? ` WHERE TORDER.id = ${feedsFilter.id} `
-    : ` LEFT JOIN feedReaded as TREADED on TREADED.feedId_fk = TORDER.id and TREADED.user = ? WHERE TREADED.id is null `;
+    : ` LEFT JOIN feedReaded as TREADED on TREADED.feedId_fk = TORDER.id and TREADED.user = '${user}' WHERE TREADED.id is null `;
   /** Add the filter */
   const sources = (feedsFilter?.filter?.length ?? 0) === 0 ? 'source' : ` (SELECT * FROM source WHERE typeId_fk NOT IN (${feedsFilter.filter.join(',')})) `;
   /** Construct the query  */
@@ -26,9 +30,10 @@ const getFeedsForward = (feedsFilter: FeedsFilter): result => {
       ORDER BY TORDER.publishDate DESC
       LIMIT ${feedsFilter.count ?? 10}) AS TFEEDS
     INNER JOIN ${sources} as TSOURCES ON TSOURCES.id = TFEEDS.sourceId
+    ORDER BY publishDate DESC;
   `;
   /** Set the parameters */
-  const params = [feedsFilter.user];
+  const params : string[] = [];
   /** */
   return { query, params };
 };
