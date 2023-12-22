@@ -11,7 +11,9 @@ const setLastReaded = (config: FeedsConfig, readedOption: ReadedOption, replaceV
     queryReplaceReaded.replace('{values}', replaceValues.join(',')),
     [],
     () => {},
-    (error: Error) => console.log(`setLastReaded: Error seting readed feed ${readedOption.feedsId.join(',')} for user ${readedOption.user} (${error.message})`)
+    (error: Error) => {
+      // console.log(`setLastReaded: Error seting readed feed ${readedOption.feedsId.join(',')} for user ${readedOption.user} (${error.message})`);
+    }
   );
 };
 

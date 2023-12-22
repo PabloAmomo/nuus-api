@@ -15,7 +15,7 @@ const setFeedsReaded = (config: FeedsConfig, readedOption: ReadedOption, insertV
       if (error?.code == 'ER_DUP_ENTRY') onResult();
       else {
         onError(new Error('Error setting feeds readed'));
-        console.log(`setFeedsReaded: Error seting readed feed ${readedOption.feedsId.join(',')} for user ${readedOption.user} (${error.message})`);
+        // console.log(`setFeedsReaded: Error seting readed feed ${readedOption.feedsId.join(',')} for user ${readedOption.user} (${error.message})`);
       }
     }
   );
